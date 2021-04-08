@@ -413,7 +413,7 @@ id,name,weight,height,armSpan,legSwing,weightCategory.id,weightCategory.name,dat
 414,Damir Hadzovic,70.31,175.26,177.8,101.6,5,Легкий вес,1986-08-08,Bosnia,Goražde,
 415,Mark Hunt,120.2,177.8,182.88,110.49,9,Тяжелый вес,1974-03-23,New Zealand,South Auckland,Pacific/Auckland
 416,Nick Hein,70.31,167.64,167.64,99.06,5,Легкий вес,1984-04-24,Germany,,Europe/Berlin
-417,Walt Harris,113.4,195.58,195.58,101.7,9,Тяжелый вес,1983-06-10,USA,Homewood,
+417,Walt Harris,113.4,195.58,195.58,119.38,9,Тяжелый вес,1983-06-10,USA,Homewood,
 418,Ed Herman,92.99,185.42,195.58,106.68,8,Полутяжелый вес,1980-10-02,USA,Vancouver,America/Vancouver
 419,Nohelin Hernandez,61.24,177.8,180.34,101.7,3,Легчайший вес,1994-03-01,USA,Gilroy,America/New_York
 420,Jack Hermansson,83.91,185.42,195.58,118.11,7,Средний вес,1988-06-10,Sweden,Uddevalla,Europe/Stockholm
@@ -478,7 +478,7 @@ id,name,weight,height,armSpan,legSwing,weightCategory.id,weightCategory.name,dat
 479,Jorge Masvidal,77.11,180.34,187.96,99.06,6,Полусредний вес,1984-11-12,USA,Miami,America/New_York
 480,Jan Blachowicz,92.99,187.96,198.12,111.76,8,Полутяжелый вес,1983-02-24,Poland,Cieszyn,Europe/Warsaw
 481,Luke Rockhold,92.99,190.5,195.58,114.3,7,Средний вес,1984-10-17,USA,Santa Cruz,America/Argentina/Rio_Gallegos
-482,Claudia Gadelha,52.16,162.56,160.02,101.7,10,Женский минимальный вес,1988-12-07,Brazil,Mossoro,America/Fortaleza
+482,Claudia Gadelha,52.16,162.56,160.02,81.28,10,Женский минимальный вес,1988-12-07,Brazil,Mossoro,America/Fortaleza
 483,Edmen Shahbazyan,83.91,187.96,187.96,101.7,7,Средний вес,1997-11-20,USA,,America/New_York
 484,Junior Dos Santos,107.96,193.04,195.58,104.14,9,Тяжелый вес,1984-01-30,Brazil,Caçador,America/Sao_Paulo
 485,Joseph Benavidez,56.7,162.56,165.1,91.44,2,Наилегчайший вес,1984-07-31,USA,San Antonio,America/Chicago
@@ -531,7 +531,7 @@ id,name,weight,height,armSpan,legSwing,weightCategory.id,weightCategory.name,dat
 533,Pedro Munhoz,61.24,167.64,165.1,91.44,3,Легчайший вес,1986-09-07,Brazil,Sao Paulo,America/Sao_Paulo
 534,Alejandro Perez,61.24,167.64,170.18,91.44,3,Легчайший вес,1989-09-02,Mexico,Aguascalientes,America/Mexico_City
 535,Gina Mazany,61.24,167.64,172.72,96.52,12,Женский легчайший вес,1988-08-19,USA,Anchorage,America/Anchorage
-536,Stefan Struve,120.2,210.82,213.36,101.7,9,Тяжелый вес,1988-02-18,Netherlands,Beverwijk,Europe/Amsterdam
+536,Stefan Struve,120.2,210.82,213.36,121.92,9,Тяжелый вес,1988-02-18,Netherlands,Beverwijk,Europe/Amsterdam
 537,Paul Felder,70.31,180.34,177.8,101.6,5,Легкий вес,1984-04-25,USA,Philadelphia,America/New_York
 538,Cain Velasquez,108.86,185.42,195.58,104.14,9,Тяжелый вес,1982-07-28,USA,Salinas,America/Guayaquil
 539,Cortney Casey,52.16,170.18,170.18,101.7,10,Женский минимальный вес,1987-05-05,USA,Mesa,America/Phoenix
@@ -565,7 +565,7 @@ id,name,weight,height,armSpan,legSwing,weightCategory.id,weightCategory.name,dat
 567,TJ Dillashaw,56.7,167.64,170.18,96.52,3,Легчайший вес,1986-02-07,,,
 568,Demetrious Johnson,56.7,160.02,167.64,86.36,2,Наилегчайший вес,1986-08-13,USA,Madisonville,America/New_York
 569,Brett Johns,61.24,170.18,180.34,99.06,3,Легчайший вес,1992-02-21,United Kingdom,Swansea,Europe/London
-570,Danielle Taylor,52.16,152.4,152.4,101.7,10,Женский минимальный вес,1989-10-25,USA,Lancaster,America/New_York
+570,Danielle Taylor,52.16,152.4,152.4,83.82,10,Женский минимальный вес,1989-10-25,USA,Lancaster,America/New_York
 571,Jose Aldo,65.77,170.18,177.8,101.6,4,Полулегкий вес,1986-09-09,Brazil,Manaus,America/Manaus
 572,Joanna Jedrzejczyk,56.7,167.64,165.1,88.9,10,Женский минимальный вес,1987-08-18,Poland,Olsztyn,Europe/Warsaw
 573,Dustin Ortiz,56.7,165.1,165.1,88.9,2,Наилегчайший вес,1988-12-25,USA,Goshen,America/Indiana/Indianapolis
@@ -706,7 +706,7 @@ id,name,weight,height,armSpan,legSwing,weightCategory.id,weightCategory.name,dat
 708,Marcel Fortuna,92.99,185.42,187.96,106.68,8,Полутяжелый вес,1985-10-22,Brazil,Tubarão,America/Sao_Paulo
 709,Georges St-Pierre,83.91,180.34,193.04,106.68,7,Средний вес,1981-05-19,,,
 710,Hacran Dias,70.31,172.72,175.26,101.6,5,Легкий вес,1984-06-16,Brazil,Rio de Janeiro,America/Sao_Paulo
-711,Christian Colombo,120.2,195.58,203.2,101.7,9,Тяжелый вес,1980-07-01,Denmark,,Europe/Copenhagen
+711,Christian Colombo,120.2,195.58,203.2,121.92,9,Тяжелый вес,1980-07-01,Denmark,,Europe/Copenhagen
 712,Marcin Held,70.31,175.26,180.34,99.06,5,Легкий вес,1992-01-18,Poland,,Europe/Warsaw
 713,Jonathan Wilson,92.99,187.96,190.5,106.68,7,Средний вес,1987-07-17,USA,,America/New_York
 714,Pearl Gonzalez,52.16,162.56,172.72,101.7,10,Женский минимальный вес,1986-08-12,USA,Chicago,America/Chicago
@@ -748,7 +748,7 @@ id,name,weight,height,armSpan,legSwing,weightCategory.id,weightCategory.name,dat
 750,Keith Berish,92.99,182.88,185.42,96.52,7,Средний вес,1985-11-14,USA,,America/New_York
 751,Chris Camozzi,83.91,187.96,193.04,106.68,7,Средний вес,1986-11-20,USA,Alameda,America/Los_Angeles
 752,Jonathan Meunier,77.11,190.5,190.5,109.22,6,Полусредний вес,1987-08-04,Canada,Quebec City,America/Montreal
-753,Magnus Cedenblad,83.91,195.58,195.58,101.7,7,Средний вес,1982-04-10,Sweden,,Europe/Stockholm
+753,Magnus Cedenblad,83.91,195.58,195.58,121.92,7,Средний вес,1982-04-10,Sweden,,Europe/Stockholm
 754,Rashid Magomedov,70.31,175.26,177.8,99.06,5,Легкий вес,1984-11-29,Russia,Makhachkala,Europe/Moscow
 755,Heather Jo Clark,52.16,167.64,162.56,96.52,10,Женский минимальный вес,1980-09-19,,,
 756,Tae Hyun Bang,70.31,175.26,180.34,99.06,5,Легкий вес,1983-04-15,South Korea,Seoul,Asia/Seoul
