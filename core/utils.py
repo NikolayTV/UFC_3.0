@@ -2,10 +2,13 @@ import pandas as pd
 
 
 def load_fighters():
-    fighters_df = pd.read_csv("data/0Catboost_v1_0/fighters_df.csv", index_col=0)
+    # fighters_df = pd.read_csv("data/Catboost_v1_0/fighters_df.csv", index_col=0)
+    fighters_df = pd.read_csv("/home/nikolay/workspace/UFC_betting/UFC_3.0/data/Catboost_v1_0/fighters_df.csv", index_col=0)
+
+
     fighters_df["dateOfBirth"] = pd.to_datetime(fighters_df["dateOfBirth"])
     fighters_cols = [
-        "id",
+        # "id",
         "name",
         "weight",
         "height",
@@ -19,7 +22,7 @@ def load_fighters():
         "timezone",
     ]
     fighters_df = fighters_df[fighters_cols]
-    fighters_df.set_index("id", inplace=True)
+    # fighters_df.set_index("id", inplace=True)
     f_name_dict = fighters_df['name'].to_dict()
 
     return fighters_df, f_name_dict

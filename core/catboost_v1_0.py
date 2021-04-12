@@ -3,68 +3,127 @@ import pandas as pd
 import numpy as np
 import ast
 import json
+import datetime
 
-from core.utils import load_fighters, difference
+from core.utils import load_fighters
 
 
-class Catboost_v0_0:
+class Catboost_v1_0:
     '''
     Catboost model v0. Cumulative sum stats
     '''
 
     def __init__(self):
-        self.clf_v0 = CatBoostClassifier()
-        self.clf_v0.load_model('models/Catboost_v1_0/catboost_v0_0_05.04.2021.cat')
-        self.model_cols_v0 = self.clf_v0.feature_names_
+        self.clf1 = CatBoostClassifier()
+        self.clf1.load_model(
+            '/home/nikolay/workspace/UFC_betting/UFC_3.0/models/Catboost_v1_0/catboost_v1_0_06.04.2021_1.cat')
+        self.model_cols1 = self.clf1.feature_names_
 
-        self.f_stats_events_cumulative = pd.read_csv('data/Catboost_v1_0/PROD_f_stats_events_cumulative_06.04.2021.csv',
-                                                     index_col=0)
-        self.all_new_cols = json.load(open('../../data/Catboost_v1_0/all_new_cols_06.04.2021.txt', 'r'))
+        self.clf2 = CatBoostClassifier()
+        self.clf2.load_model(
+            '/home/nikolay/workspace/UFC_betting/UFC_3.0/models/Catboost_v1_0/catboost_v1_0_06.04.2021_2.cat')
+        self.model_cols2 = self.clf2.feature_names_
+
+        # TODO replace fighters df to f_stats_events_cumulative
+        self.f_stats_events_cumulative = pd.read_csv(
+            '/home/nikolay/workspace/UFC_betting/UFC_3.0/data/Catboost_v1_0/PROD_f_stats_events_cumulative_prod_08.04.2021.csv',
+            index_col=0)
+        self.f_stats_events_cumulative['eventDate.date'] = pd.to_datetime(
+            self.f_stats_events_cumulative['eventDate.date'])
+
+        self.generated_features = json.load(
+            open('/home/nikolay/workspace/UFC_betting/UFC_3.0/data/Catboost_v1_0/generated_features_08.04.2021.txt',
+                 'r'))
+        self.num_cols = [i[3:] for i in self.generated_features['fighter1_stats']][:-8]
+
+        self.static_cols = ['country', 'city', 'armSpan', 'height', 'legSwing', 'timezone']
+        self.f1_static_cols = ['f1_' + col for col in self.static_cols]
+        self.f2_static_cols = ['f2_' + col for col in self.static_cols]
+
         self.fighters_df, self.f_name_dict = load_fighters()
 
-    def predict_fight(self, fighter1_name, fighter2_name, event_date, f1_odd, f2_odd,
-                      weightCategory_name, city, country
+    def predict_fight(self, f1_id, f2_id, event_date, f1_odd, f2_odd,
+                      weightCategory_id, city, country, event_name, time_zone,
                       ):
+        is_fight_night = 'fight night' in str(event_name).lower()
 
-        all_fightCols_list = self.all_new_cols['new_cumsum_colnames'] + self.all_new_cols['new_accuracy_cols'] + \
-                             self.all_new_cols['new_percent_cols'] + self.all_new_cols['new_PM_cols'] \
-                             + self.all_new_cols['new_streak_cols'] + \
-                             ['count_of_fights', 'age', 'odds']
+        ### Static stats
+        f1_birthDate = self.fighters_df.loc[int(f1_id), ['dateOfBirth']]
+        f1_static_stats = self.fighters_df.loc[int(f1_id), self.static_cols].values
+        f1_age = ((pd.to_datetime(event_date) - pd.to_datetime(f1_birthDate)) / 365).dt.days.values[0]
 
-        f1_birthDate = self.fighters_df[self.fighters_df['name'] == fighter1_name]['dateOfBirth']
-        f1_age = ((pd.to_datetime(event_date, utc=True) - pd.to_datetime(f1_birthDate, utc=True)) / 365).dt.days.values[
-            0]
+        f2_birthDate = self.fighters_df.loc[int(f2_id), ['dateOfBirth']]
+        f2_static_stats = self.fighters_df.loc[int(f2_id), self.static_cols].values
+        f2_age = ((pd.to_datetime(event_date) - pd.to_datetime(f2_birthDate)) / 365).dt.days.values[0]
 
-        f2_birthDate = self.fighters_df[self.fighters_df['name'] == fighter2_name]['dateOfBirth']
-        f2_age = ((pd.to_datetime(event_date, utc=True) - pd.to_datetime(f2_birthDate, utc=True)) / 365).dt.days.values[
-            0]
+        ### Dynamic stats
+        fighter1_stats = self.f_stats_events_cumulative[
+            (self.f_stats_events_cumulative['fighterId'] == int(f1_id)) &
+            (self.f_stats_events_cumulative['eventDate.date'] < pd.to_datetime(event_date))]
+        fighter1_stats_NaNs = (fighter1_stats[self.num_cols].isna().sum(axis=1) / fighter1_stats.shape[1])
+        fighter1_stats = pd.DataFrame(fighter1_stats[fighter1_stats_NaNs < 0.2].iloc[-1]).T.reset_index(drop=True)
 
-        fighter1_stats = self.f_stats_events_cumulative[self.f_stats_events_cumulative['fighterName'] == fighter1_name]
-        fighter1_stats = pd.DataFrame(
-            fighter1_stats[fighter1_stats[self.ready_cols].isna().sum(axis=1) < 10].iloc[-1]).T.reset_index(drop=True)
+        fighter2_stats = self.f_stats_events_cumulative[
+            (self.f_stats_events_cumulative['fighterId'] == int(f2_id)) &
+            (self.f_stats_events_cumulative['eventDate.date'] < pd.to_datetime(event_date))]
+        fighter2_stats_NaNs = (fighter2_stats[self.num_cols].isna().sum(axis=1) / fighter2_stats.shape[1])
+        fighter2_stats = pd.DataFrame(fighter2_stats[fighter2_stats_NaNs < 0.2].iloc[-1]).T.reset_index(drop=True)
 
-        fighter2_stats = self.f_stats_events_cumulative[self.f_stats_events_cumulative['fighterName'] == fighter2_name]
-        fighter2_stats = pd.DataFrame(
-            fighter2_stats[fighter2_stats[self.ready_cols].isna().sum(axis=1) < 10].iloc[-1]).T.reset_index(drop=True)
-
-        # Create df for prediction
+        # Create prediction vector
         X_df = pd.DataFrame(index=[0])
 
-        X_df = X_df.join(
-            fighter1_stats[self.ready_cols].add_prefix("f1_"))  # , on="id"
+        X_df = X_df.join(fighter1_stats[self.num_cols].add_prefix("f1_"))
+        X_df = X_df.join(fighter2_stats[self.num_cols].add_prefix("f2_"))
 
-        X_df = X_df.join(
-            fighter2_stats[self.ready_cols].add_prefix("f2_"))
+        X_df.loc[0, ['f1_age', 'f2_age', 'f1_odds', 'f2_odds']] = f1_age, f2_age, f1_odd, f2_odd
 
-        X_df.loc[0, ['f1_age', 'f2_age', 'f1_odds', 'f2_age_odds']] = f1_age, f2_age, f1_odd, f2_odd
-        X_df[['weightCategory.name', 'city', 'country']] = weightCategory_name, city, country
+        X_df[['weightCategory.id', 'city', 'country', 'is_fight_night', 'timezone']] = \
+            weightCategory_id, city, country, is_fight_night, time_zone
 
-        X_df_combined = difference(X_df, all_fightCols_list)
-        X_df_combined_reversed = X_df_combined.copy()
-        X_df_combined_reversed[all_fightCols_list] = X_df_combined_reversed[all_fightCols_list] * -1
+        X_df[self.f1_static_cols] = f1_static_stats
+        X_df[self.f2_static_cols] = f2_static_stats
 
-        y_proba_straight = self.clf_v0.predict_proba(X_df_combined[self.model_cols_v0])[:, 1]
-        y_proba_reversed = self.clf_v0.predict_proba(X_df_combined_reversed[self.model_cols_v0])[:, 0]
-        y_proba = np.mean([y_proba_straight, y_proba_reversed])
+        binary_fighter_cols = []
+        for prefix in ["f1_", "f2_"]:
+            for key in ["isHomeCity", "isHomeCountry", "isHomeTimezone"]:
+                binary_fighter_cols.append(prefix + key)
 
-        return y_proba
+        binary_stats = []
+        binary_cols = ['city', 'country', 'timezone']
+        for prefix in ["f1_", "f2_"]:
+            for col in binary_cols:
+                binary_stats.append(int(X_df.loc[0, prefix + col] == X_df.loc[0, col]))
+
+        X_df[binary_fighter_cols] = binary_stats
+        X_df[self.f1_static_cols + self.f2_static_cols] = X_df[self.f1_static_cols + self.f2_static_cols].fillna(
+            'unknown')
+
+        # Difference
+        fighter1_stat_cols = self.generated_features['fighter1_stats']
+        for col in fighter1_stat_cols:
+            new_col_name = col[3:] + '_difference'
+            X_df[new_col_name] = X_df['f1_' + col[3:]].astype(float) - X_df['f2_' + col[3:]].astype(float)
+
+        # Make reversed prediction vector
+        X_df_reversed = X_df.copy()
+
+        reversed_cols = []
+        for col in X_df.columns:
+            if 'f2' in col:
+                new_col_name = col.replace('f2', 'f1')
+            elif 'f1' in col:
+                new_col_name = col.replace('f1', 'f2')
+            else:
+                new_col_name = col
+            reversed_cols.append(new_col_name)
+
+        X_df_reversed.columns = reversed_cols
+        fighter1_stat_cols = self.generated_features['fighter1_stats']
+        for col in fighter1_stat_cols:
+            new_col_name = col[3:] + '_difference'
+            X_df_reversed[new_col_name] = X_df_reversed['f1_' + col[3:]].astype(float) - X_df_reversed['f2_' + col[3:]].astype(float)
+
+        y_proba1 = self.clf1.predict_proba(X_df[self.model_cols1])[:, 1]
+        y_proba2 = self.clf2.predict_proba(X_df_reversed[self.model_cols2])[:, 0]
+
+        return float(y_proba1), float(y_proba2), [str(x) for x in X_df_reversed[self.model_cols2].values.tolist()], self.model_cols2
