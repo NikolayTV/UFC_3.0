@@ -1,17 +1,15 @@
 from fastapi import Body, FastAPI, HTTPException
-from catboost import CatBoostClassifier
-import pandas as pd
-import numpy as np
-from core.catboost_v0_0 import Catboost_v0_0
-from core.catboost_v1_0 import Catboost_v1_0
+from core.catboost_v1 import Catboost_v1_0, Catboost_v1_1, Catboost_v1_2
 
 import ast
 from datetime import date
 
 app = FastAPI()
 
-# Catboost_model_v0 = Catboost_v0_0()
 Catboost_model_v1_0 = Catboost_v1_0()
+Catboost_model_v1_1 = Catboost_v1_1()
+Catboost_model_v1_2 = Catboost_v1_2()
+
 
 @app.get("/predict_fight")
 def predict_fight(
@@ -26,14 +24,28 @@ def predict_fight(
         event_name: str = 'UFC Fight Night',
         time_zone: str = 'America/Denver',
 ):
-    response = Catboost_model_v1_0.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
-                                                              f1_odd=f1_odd, f2_odd=f2_odd,
-                                                              weightCategory_id=weightCategory_id, city=city, country=country,
-                                                              event_name=event_name, time_zone=time_zone)
+    response_1_0 = Catboost_model_v1_0.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
+                                                     f1_odd=f1_odd, f2_odd=f2_odd,
+                                                     weightCategory_id=weightCategory_id, city=city, country=country,
+                                                     event_name=event_name, time_zone=time_zone)
 
-    output = {'y_proba_catboost_v1_0': response[:2], 'X_df_values': list(response[2]), 'X_df_columns': list(response[3])}
+    response_1_1 = Catboost_model_v1_1.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
+                                                     f1_odd=f1_odd, f2_odd=f2_odd,
+                                                     weightCategory_id=weightCategory_id, city=city, country=country,
+                                                     event_name=event_name, time_zone=time_zone)
+
+    response_1_2 = Catboost_model_v1_2.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
+                                                     f1_odd=f1_odd, f2_odd=f2_odd,
+                                                     weightCategory_id=weightCategory_id, city=city, country=country,
+                                                     event_name=event_name, time_zone=time_zone)
+
+
+    output = {'y_proba_catboost_v1_0': response_1_0[:1][0],
+              'y_proba_catboost_v1_1': response_1_1[:1][0],
+              'y_proba_catboost_v1_2': response_1_2[:1][0],
+              }
+
+    # output = {'y_proba_catboost_v1_0': response_1_0[:1][0], 'X_df_values': list(response[1]),
+    #           'X_df_columns': list(response[2])}
 
     return output
-
-
-

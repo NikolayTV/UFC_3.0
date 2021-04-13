@@ -3,7 +3,7 @@ import pandas as pd
 
 def load_fighters():
     # fighters_df = pd.read_csv("data/Catboost_v1_0/fighters_df.csv", index_col=0)
-    fighters_df = pd.read_csv("/home/nikolay/workspace/UFC_betting/UFC_3.0/data/Catboost_v1_0/fighters_df.csv", index_col=0)
+    fighters_df = pd.read_csv("data/Catboost_v1_0/fighters_df.csv", index_col=0)
 
 
     fighters_df["dateOfBirth"] = pd.to_datetime(fighters_df["dateOfBirth"])
