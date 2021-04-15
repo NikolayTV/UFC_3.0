@@ -39,25 +39,25 @@ def predict_fight(
     if not output['success']:
         return output
 
-    # try:
-    response_1_0 = Catboost_model_v1_0.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
-                                                     f1_odd=f1_odd, f2_odd=f2_odd,
-                                                     weightCategory_id=weightCategory_id, city=city, country=country,
-                                                     event_name=event_name, time_zone=time_zone)
+    try:
+        response_1_0 = Catboost_model_v1_0.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
+                                                         f1_odd=f1_odd, f2_odd=f2_odd,
+                                                         weightCategory_id=weightCategory_id, city=city, country=country,
+                                                         event_name=event_name, time_zone=time_zone)
 
-    response_1_1 = Catboost_model_v1_1.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
-                                                     f1_odd=f1_odd, f2_odd=f2_odd,
-                                                     weightCategory_id=weightCategory_id, city=city, country=country,
-                                                     event_name=event_name, time_zone=time_zone)
+        response_1_1 = Catboost_model_v1_1.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
+                                                         f1_odd=f1_odd, f2_odd=f2_odd,
+                                                         weightCategory_id=weightCategory_id, city=city, country=country,
+                                                         event_name=event_name, time_zone=time_zone)
 
-    response_1_2 = Catboost_model_v1_2.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
-                                                     f1_odd=f1_odd, f2_odd=f2_odd,
-                                                     weightCategory_id=weightCategory_id, city=city, country=country,
-                                                     event_name=event_name, time_zone=time_zone)
-    # except Exception as exp:
-    #     output['success'] = False
-    #     output['exp'] = exp
-    #     return output
+        response_1_2 = Catboost_model_v1_2.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
+                                                         f1_odd=f1_odd, f2_odd=f2_odd,
+                                                         weightCategory_id=weightCategory_id, city=city, country=country,
+                                                         event_name=event_name, time_zone=time_zone)
+    except Exception as exp:
+        output['success'] = False
+        output['exp'] = exp
+        return output
 
 
     output['y_proba_catboost_v1_0'] = response_1_0[0]
