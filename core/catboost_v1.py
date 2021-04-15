@@ -152,7 +152,7 @@ class Catboost_v1_0:
         y_proba2 = self.clf2.predict_proba(X_df_reversed[self.model_cols2])[:, 0]
 
         y_proba = (y_proba1 + y_proba2) / 2
-        return float(y_proba), [str(x) for x in X_df_reversed[self.model_cols2].values.tolist()], self.model_cols2
+        return float(y_proba), [i for i in X_df.iloc[0].values.tolist()], [i for i in X_df.columns]
 
 
 class Catboost_v1_1:
@@ -275,7 +275,7 @@ class Catboost_v1_1:
         y_proba2 = self.clf2.predict_proba(X_df_reversed[self.model_cols2])[:, 0]
 
         y_proba = (y_proba1 + y_proba2) / 2
-        return float(y_proba), [str(x) for x in X_df_reversed[self.model_cols2].values.tolist()], self.model_cols2
+        return float(y_proba)
 
 
 class Catboost_v1_2:
@@ -398,4 +398,4 @@ class Catboost_v1_2:
         y_proba2 = self.clf2.predict_proba(X_df_reversed[self.model_cols2])[:, 0]
 
         y_proba = (y_proba1 + y_proba2) / 2
-        return float(y_proba), [str(x) for x in X_df_reversed[self.model_cols2].values.tolist()], self.model_cols2
+        return float(y_proba)
