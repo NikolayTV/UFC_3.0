@@ -150,4 +150,4 @@ class Catboost_v2_1:
         print('y_proba1', y_proba1)
         print('y_proba1', y_proba1)
 
-        return float(y_proba), float(y_proba1), float(y_proba2), str(X_df[self.clf.feature_names_].values), str(X_df_reversed[self.clf.feature_names_].values)
+        return float(y_proba)#, float(y_proba1), float(y_proba2), str(X_df[self.clf.feature_names_].values), str(X_df_reversed[self.clf.feature_names_].values)
