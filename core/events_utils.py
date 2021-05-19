@@ -8,7 +8,7 @@ def balance_target(df):
     df = df.copy()
     print('percent of fighter1 winners BEFORE swapping indixes:', np.mean(df['winnerId'] == df['fighterId_1']))
     # randomly swap fighter1 and fighter2 for half of the dataset to create "negative cases"
-    np.random.seed(seed=2)
+    np.random.seed(seed=5)
 
     swap_indices = np.random.choice(len(df), size=len(df) // 2, replace=False)
 

@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm_notebook as tqdm
 from pprint import pprint
+
+
 def parse_odds(df):
     """
     Parse odds from avgOdds
@@ -65,7 +67,7 @@ def get_winner_favorite(df):
     return df
 
 
-def calculate_roi(df, pred_col='y_pred'):
+def calculate_roi(df, pred_col='y_pred', printout=False):
     bet = 100  # рублей
     bank = 0
     bet_res = []
@@ -91,8 +93,9 @@ def calculate_roi(df, pred_col='y_pred'):
         'roi:': np.mean(bet_res),
         'accuracy:': (df['winner'] == df[pred_col]).mean()
     }
-    pprint(output)
-    # return output
+    if printout:
+        pprint(output)
+    return output
 
 
 def last_figher_id(fighterId, df):
