@@ -145,9 +145,9 @@ class Catboost_v2_1:
         y_proba1 = self.clf.predict_proba(X_df[self.clf.feature_names_])[:, 1]
         y_proba2 = self.clf.predict_proba(X_df_reversed[self.clf.feature_names_])[:, 0]
         y_proba = (y_proba1 + y_proba2) / 2
-        print('X_df[self.clf.feature_names_]', X_df[self.clf.feature_names_])
-        print('X_df_reversed[self.clf.feature_names_]', X_df_reversed[self.clf.feature_names_])
-        print('y_proba1', y_proba1)
-        print('y_proba1', y_proba1)
+        print('X_df[self.clf.feature_names_]', str(X_df[self.clf.feature_names_]))
+        print('X_df_reversed[self.clf.feature_names_]', str(X_df_reversed[self.clf.feature_names_]))
+        # print('y_proba1', y_proba1)
+        # print('y_proba1', y_proba1)
 
         return float(y_proba)#, float(y_proba1), float(y_proba2), str(X_df[self.clf.feature_names_].values), str(X_df_reversed[self.clf.feature_names_].values)

@@ -18,10 +18,10 @@ Catboost_model_v1_2_2020 = Catboost_v1_2_2020()
 Catboost_model_v1_1_copy1 = Catboost_v1_1_copy1()
 Catboost_model_v2_1 = Catboost_v2_1()
 
-
 # Check if fighter ID is in the base
 fighters_df = pd.read_csv("./Notebooks/v2_1/data_models/fighters_df.csv", index_col=0)
 fighters_list = fighters_df.index
+
 
 @app.get("/predict_fight")
 def predict_fight(
@@ -36,7 +36,6 @@ def predict_fight(
         event_name: str = 'UFC Fight Night',
         time_zone: str = 'America/Denver',
 ):
-
     output = {'success': True}
     if f1_id not in fighters_list:
         output['missing_fighterId_1'] = True
@@ -51,44 +50,44 @@ def predict_fight(
     try:
         response_1_0 = Catboost_model_v1_0.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
                                                          f1_odd=f1_odd, f2_odd=f2_odd,
-                                                         weightCategory_id=weightCategory_id, city=city, country=country,
+                                                         weightCategory_id=weightCategory_id, city=city,
+                                                         country=country,
                                                          event_name=event_name, time_zone=time_zone)
 
         response_1_1 = Catboost_model_v1_1.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
                                                          f1_odd=f1_odd, f2_odd=f2_odd,
-                                                         weightCategory_id=weightCategory_id, city=city, country=country,
+                                                         weightCategory_id=weightCategory_id, city=city,
+                                                         country=country,
                                                          event_name=event_name, time_zone=time_zone)
 
         response_1_2 = Catboost_model_v1_2.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
                                                          f1_odd=f1_odd, f2_odd=f2_odd,
-                                                         weightCategory_id=weightCategory_id, city=city, country=country,
+                                                         weightCategory_id=weightCategory_id, city=city,
+                                                         country=country,
                                                          event_name=event_name, time_zone=time_zone)
 
         response_1_1_2020 = Catboost_model_v1_1_2020.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
-                                                         f1_odd=f1_odd, f2_odd=f2_odd,
-                                                         weightCategory_id=weightCategory_id, city=city, country=country,
-                                                         event_name=event_name, time_zone=time_zone)
+                                                                   f1_odd=f1_odd, f2_odd=f2_odd,
+                                                                   weightCategory_id=weightCategory_id, city=city,
+                                                                   country=country,
+                                                                   event_name=event_name, time_zone=time_zone)
 
         response_1_2_2020 = Catboost_model_v1_2_2020.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
-                                                         f1_odd=f1_odd, f2_odd=f2_odd,
-                                                         weightCategory_id=weightCategory_id, city=city, country=country,
-                                                         event_name=event_name, time_zone=time_zone)
-
-        response_1_1_copy1 = Catboost_model_v1_1_copy1.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
-                                                         f1_odd=f1_odd, f2_odd=f2_odd,
-                                                         weightCategory_id=weightCategory_id, city=city, country=country,
-                                                         event_name=event_name, time_zone=time_zone)
+                                                                   f1_odd=f1_odd, f2_odd=f2_odd,
+                                                                   weightCategory_id=weightCategory_id, city=city,
+                                                                   country=country,
+                                                                   event_name=event_name, time_zone=time_zone)
 
         response_2_1 = Catboost_model_v2_1.predict_fight(f1_id=f1_id, f2_id=f2_id, event_date=event_date,
                                                          f1_odd=f1_odd, f2_odd=f2_odd,
-                                                         weightCategory_id=weightCategory_id, city=city, country=country,
+                                                         weightCategory_id=weightCategory_id, city=city,
+                                                         country=country,
                                                          event_name=event_name, time_zone=time_zone)
 
     except Exception as exp:
         output['success'] = False
         output['exp'] = exp
         return output
-
 
     output['y_proba_catboost_v1_0'] = response_1_0[0]
     # output['values']  = str(response_1_0[1])
@@ -98,7 +97,7 @@ def predict_fight(
     output['y_proba_catboost_v1_1_2020'] = response_1_1_2020
     output['y_proba_catboost_v1_2_2020'] = response_1_2_2020
     # output['y_proba_catboost_v1_1_copy1'] = response_1_1_copy1
-    output['y_proba_catboost_v2_1'] = response_2_1[0]
+    output['y_proba_catboost_v2_1'] = response_2_1
     # output['catboost_v2_1'] = response_2_1[1:]
 
     # output = {'y_proba_catboost_v1_0': response_1_0[:1][0], 'X_df_values': list(response[1]),
