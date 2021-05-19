@@ -97,9 +97,9 @@ def predict_fight(
     output['y_proba_catboost_v1_2'] = response_1_2
     output['y_proba_catboost_v1_1_2020'] = response_1_1_2020
     output['y_proba_catboost_v1_2_2020'] = response_1_2_2020
-    output['y_proba_catboost_v1_1_copy1'] = response_1_1_copy1
+    # output['y_proba_catboost_v1_1_copy1'] = response_1_1_copy1
     output['y_proba_catboost_v2_1'] = response_2_1[0]
-    output['catboost_v2_1'] = response_2_1[1:]
+    # output['catboost_v2_1'] = response_2_1[1:]
 
     # output = {'y_proba_catboost_v1_0': response_1_0[:1][0], 'X_df_values': list(response[1]),
     #           'X_df_columns': list(response[2])}
